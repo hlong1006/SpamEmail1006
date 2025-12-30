@@ -1,0 +1,22 @@
+spam-detection/
+├── data/
+│   ├── raw/           # Email files
+│   ├── processed/     # Processed CSV
+│   └── split/         # Train/test split
+├── notebooks/
+│   ├── 01_eda.ipynb
+│   ├── 02_preprocessing.ipynb
+│   └── 03_modeling.ipynb
+├── src/
+│   ├── preprocessing.py
+│   ├── models.py
+│   ├── train.py
+│   └── predict.py
+├── api/
+│   ├── app.py
+│   └── requirements.txt
+├── models/            # Saved models
+├── tests/             # Unit tests
+├── requirements.txt
+├── Dockerfile
+└── README.md
