@@ -1,7 +1,9 @@
 import re 
 import numpy as np 
 import pandas as pd 
+import pickle
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.text import Tokenizer
 
 def clean_text(text):
     text = str(text).lower()
@@ -44,7 +46,6 @@ def split_data(X, y, test_size=0.2, random_state=42):
     return X_train, X_test, y_train, y_test
 
 def create_tokenizer(texts, vocab_size):
-    from tensorflow.keras.preprocessing.text import Tokenizer
     tokenizer = Tokenizer(num_words=vocab_size, oov_token='<OOV>')
     tokenizer.fit_on_texts(texts)
     return tokenizer
@@ -66,12 +67,10 @@ def preprocess_texts(texts, tokenizer, max_len):
     return padded_sequences
 
 def save_tokenizer(tokenizer, file_path):
-    import pickle
     with open(file_path, 'wb') as handle:
         pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
         
 def load_tokenizer(file_path):
-    import pickle
     with open(file_path, 'rb') as handle:
         tokenizer = pickle.load(handle)
     return tokenizer
