@@ -2,7 +2,7 @@ import os
 import numpy as np
 import tensorflow as tf
 from src import config
-from src.preprocessing import load_tokenizer, preprocess_input
+from src.preprocessing import load_tokenizer, preprocess_texts
 
 class SpamClassifier:
     def __init__(self):
@@ -26,7 +26,7 @@ class SpamClassifier:
         if not text:
             return {"error": "Empty text"}
 
-        processed_text = preprocess_input(text, self.tokenizer, config.MAX_LEN)
+        processed_text = preprocess_texts([text], self.tokenizer, config.MAX_LEN)
 
         prob = self.model.predict(processed_text, verbose=0)[0][0]
         prob = np.nan_to_num(prob, nan=0.5)
@@ -41,7 +41,3 @@ class SpamClassifier:
             "is_spam": bool(is_spam)
         }
 
-if __name__ == "__main__":
-    classifier = SpamClassifier()
-    result = classifier.predict(sample_text)
-    print(result)

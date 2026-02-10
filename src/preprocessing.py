@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re 
 import numpy as np 
 import pandas as pd 
@@ -6,12 +7,17 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 
 def clean_text(text):
-    text = str(text).lower()
+    # Handle NaN and None
+    if text is None or (isinstance(text, float) and np.isnan(text)):
+        return ""
+    text = str(text).lower().strip()
+    if not text or text == 'nan':
+        return ""
     text = re.sub(r'http\S+', '', text)   
     text = re.sub(r'\S+@\S+', '', text)   
     text = re.sub(r'\d+', '', text)       
     text = re.sub(r'[^\w\s]', '', text)
-    return text
+    return text.strip()
 
 def preprocess_data(df, tokenizer, max_len):
     df['cleaned_text'] = df['text'].apply(clean_text)
@@ -46,8 +52,13 @@ def split_data(X, y, test_size=0.2, random_state=42):
     return X_train, X_test, y_train, y_test
 
 def create_tokenizer(texts, vocab_size):
+    # Clean texts trước khi fit tokenizer
+    cleaned_texts = [clean_text(text) for text in texts if text is not None]
+    # Filter out empty strings
+    cleaned_texts = [text for text in cleaned_texts if text.strip()]
+    
     tokenizer = Tokenizer(num_words=vocab_size, oov_token='<OOV>')
-    tokenizer.fit_on_texts(texts)
+    tokenizer.fit_on_texts(cleaned_texts)
     return tokenizer
 
 def tokenize_and_pad(texts, tokenizer, max_len):
@@ -74,4 +85,3 @@ def load_tokenizer(file_path):
     with open(file_path, 'rb') as handle:
         tokenizer = pickle.load(handle)
     return tokenizer
-      

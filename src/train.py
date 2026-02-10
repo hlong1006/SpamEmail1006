@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import numpy as np
 import tensorflow as tf
@@ -25,10 +26,10 @@ def train():
     
     model.summary()
 
-    checkpoint_path = os.path.join(config.MODEL_PATH)
+    model_file = os.path.join(config.MODEL_PATH, 'best_model.keras')
     callbacks = [
         EarlyStopping(patience=3, monitor='val_loss', restore_best_weights=True),
-        ModelCheckpoint(checkpoint_path, save_best_only=True, monitor='val_loss')
+        ModelCheckpoint(model_file, save_best_only=True, monitor='val_loss')
     ]
 
     history = model.fit(X_train, y_train,
@@ -37,7 +38,7 @@ def train():
                         validation_data=(X_test, y_test),
                         callbacks=callbacks)
     
-    print(checkpoint_path)
+    print("Model đã lưu:", model_file)
 
 if __name__ == "__main__":
     train()
