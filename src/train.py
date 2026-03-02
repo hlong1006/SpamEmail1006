@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import numpy as np
 import tensorflow as tf
@@ -9,7 +8,6 @@ from src.model import build_model
 from src.preprocessing import load_tokenizer
 
 def train():
-    print("Loading data...")
     X_train = np.load(os.path.join(config.DATA_PATH, 'X_train.npy'))
     X_test = np.load(os.path.join(config.DATA_PATH, 'X_test.npy'))
     y_train = np.load(os.path.join(config.DATA_PATH, 'y_train.npy'))
@@ -38,7 +36,4 @@ def train():
                         validation_data=(X_test, y_test),
                         callbacks=callbacks)
     
-    print("Model đã lưu:", model_file)
-
-if __name__ == "__main__":
-    train()
+    print("Model:", model_file)

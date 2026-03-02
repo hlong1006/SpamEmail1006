@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Flask REST API cho mô hình phân loại spam email.
-Chạy từ thư mục gốc dự án: python api/app.py hoặc python -m api.app
-"""
 import os
 import sys
-
-# Cho phép import src khi chạy từ thư mục api/
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)

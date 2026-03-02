@@ -16,8 +16,6 @@ class SpamClassifier:
             tokenizer_path = os.path.join(config.MODEL_PATH, "tokenizer.pickle")
             self.model = tf.keras.models.load_model(model_path)
             self.tokenizer = load_tokenizer(tokenizer_path)
-            
-            print("Model and Tokenizer loaded successfully!")
         except Exception as e:
             print(f"Error loading artifacts: {e}")
             raise e
